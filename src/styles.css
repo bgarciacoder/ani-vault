@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.container-app {
+  @apply mx-auto w-full max-w-6xl px-4;
+}
+
+
+@layer utilities {
+  @media (min-width: 1024px) { /* lg en Tailwind */
+    .scrollbar-hide-desktop {
+      -ms-overflow-style: none;  /* IE y Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+
+    .scrollbar-hide-desktop::-webkit-scrollbar {
+      display: none;             /* Chrome, Safari */
+    }
+  }
+}
+
+.margin-top-0{
+  margin-top: 0 !important;
+}
+
