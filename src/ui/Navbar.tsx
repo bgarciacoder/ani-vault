@@ -25,7 +25,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
       <div className="container-app flex items-center justify-between py-3">
         <Link to="/" className="flex items-center gap-2 font-semibold">
-          <img src="https://mega.nz/file/x7g1UDxb#JlYinFKvffmvIOh1M43M7HbaVlGmd3NITPypbdc15rM" alt="Logo de anivault" width={100} />
+          <img src="https://i.postimg.cc/hjKMQTFj/anivault-logo.png" alt="Logo de anivault" width={100} />
         </Link>
 
         <nav className="flex items-center gap-2">
