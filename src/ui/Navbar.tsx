@@ -25,10 +25,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-950/70">
       <div className="container-app flex items-center justify-between py-3">
         <Link to="/" className="flex items-center gap-2 font-semibold">
-          <span className="inline-flex size-8 items-center justify-center rounded-xl bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900">
-            A
-          </span>
-          Animeflask
+          <img src="../../public/img/anivault-logo.png" alt="Logo de anivault" width={100} />
         </Link>
 
         <nav className="flex items-center gap-2">

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from './AppImage';
 import Icon from './AppIcons';
 import { Button } from './Button';
 import type { AnimeListItem, AnimeStatus } from '../types';
 import toast from 'react-hot-toast';
-import { updateAnimeStatus, updateAnimeChapterPaused } from '../lib/userApi';
+import { updateAnime } from '../lib/userApi';
 import { Field } from './Field';
 
 export default function QuickViewModal({ 
@@ -21,60 +21,25 @@ export default function QuickViewModal({
 }){
     if (!isOpen || !item) return null;
 
-    const [state, setState] = useState<string>();
+
+    const [currentStatus, setCurrentStatus] = useState<string>("");
     const [chapterPaused, setChapterPaused] = useState("");
-//   const formatPrice = (price) => {
-//     return new Intl.NumberFormat('es-ES', {
-//       style: 'currency',
-//       currency: 'EUR',
-//       minimumFractionDigits: 0,
-//       maximumFractionDigits: 0
-//     })?.format(price);
-//   };
 
-//   const renderStars = (rating) => {
-//     const stars = [];
-//     const fullStars = Math.floor(rating);
-//     const hasHalfStar = rating % 1 !== 0;
 
-//     for (let i = 0; i < fullStars; i++) {
-//       stars?.push(
-//         <Icon key={i} name="Star" size={16} className="text-amber-400 fill-current" />
-//       );
-//     }
+    useEffect(() => {
+        if (item.chapterPaused) {
+            setChapterPaused(item.chapterPaused ?? "");
+        }
+        if(item.status){
+            setCurrentStatus(item.status ?? "pendiente");
+        }
+    }, [item]);
 
-//     if (hasHalfStar) {
-//       stars?.push(
-//         <Icon key="half" name="Star" size={16} className="text-amber-400 fill-current opacity-50" />
-//       );
-//     }
-
-//     const emptyStars = 5 - Math.ceil(rating);
-//     for (let i = 0; i < emptyStars; i++) {
-//       stars?.push(
-//         <Icon key={`empty-${i}`} name="Star" size={16} className="text-gray-300" />
-//       );
-//     }
-
-//     return stars;
-//   };
-
-//   const getBoatTypeLabel = (type) => {
-//     const typeLabels = {
-//       yacht: 'Yate',
-//       sailboat: 'Velero',
-//       motorboat: 'Lancha motora',
-//       catamaran: 'Catamarán',
-//       fishing: 'Barco de pesca',
-//       speedboat: 'Lancha rápida'
-//     };
-//     return typeLabels?.[type] || type;
-//   };
 
     async function setStatus(status: AnimeStatus) {
         try {
-            setState(status);
-            const updated = await updateAnimeStatus(item._id, status);
+            setCurrentStatus(status);
+            const updated = await updateAnime(item._id, { status });
             toast.success('Estado actualizado');
             onChanged(updated);
         } catch (e: any) {
@@ -85,9 +50,11 @@ export default function QuickViewModal({
 
     async function setChatpter() {
         try{
-            console.log("Cap")
-            const updated = await updateAnimeChapterPaused(item._id, chapterPaused);
+            setCurrentStatus("en pausa")
+            const updated = await updateAnime(item._id, { chapterPaused });
+            setChapterPaused(updated.chapterPaused);
             toast.success('Capítulo donde lo dejaste actualizado.')
+            onChanged(updated);
         } catch (e: any) {
             toast.error(e?.response?.data?.message ?? 'No se pudo actualizar.');
         }
@@ -126,26 +93,38 @@ export default function QuickViewModal({
                     </div>
                     {/* Buttons */}
                     <div className='grid grid-cols-2 gap-4 p-4 border-b border-border'>
-                        <Button variant="secondary" onClick={() => setStatus('pendiente')}>
+                        <Button variant={currentStatus === "pendiente" ? "pending" : "secondary"} onClick={() => setStatus('pendiente')}>
                             Pendiente
                         </Button>
-                        <Button variant="secondary" onClick={() => setStatus('visto')}>
+                        <Button variant={currentStatus === "visto" ? "watched" : "secondary"} onClick={() => setStatus('visto')}>
                             Visto
                         </Button>
-                        <Button variant="secondary" onClick={() => setStatus('en pausa')}>
+                        <Button variant={currentStatus === "en pausa" ? "onhold" : "secondary"} onClick={() => setStatus('en pausa')}>
                             En pausa
                         </Button>
-                        <Button variant="secondary" onClick={() => setStatus('cancelado')}>
+                        <Button variant={currentStatus === "cancelado" ? "cancelled" : "secondary"} onClick={() => setStatus('cancelado')}>
                             Cancelado
                         </Button>
                     </div>
-                    <div className='flex flex-col gap-4'>
-                        <div className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-200">Introduce el capítulo del anime donde lo has pausado</div>
-                        <input type="text" value={chapterPaused} onChange={(e) => setChapterPaused(e.target.value)} className='w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-slate-900 shadow-sm outline-none ring-slate-900/10 focus:border-slate-900 focus:ring-4 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-white/10 dark:focus:border-slate-100' />
-                        <Button variant='secondary' onClick={() => setChatpter}>
-                            Añadir capítulo
-                        </Button>
-                    </div>
+                    
+                    {currentStatus === "en pausa" && (
+                        <div className="flex flex-col gap-4">
+                            <div className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-200">
+                                Introduce el capítulo del anime donde lo has pausado
+                            </div>
+
+                            <input
+                            type="text"
+                            value={chapterPaused}
+                            onChange={(e) => setChapterPaused(e.target.value)}
+                            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-slate-900 shadow-sm outline-none ring-slate-900/10 focus:border-slate-900 focus:ring-4 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:ring-white/10 dark:focus:border-slate-100"
+                            />
+
+                            <Button variant="secondary" onClick={() => setChatpter()}>
+                                Añadir capítulo
+                            </Button>
+                        </div>
+                    )}
                 </div>
                 {/* Price and Actions */}
                 <div className="pt-4 border-t border-border">

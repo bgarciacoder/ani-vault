@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 import type { AnimeListItem, AnimeStatus } from '../../types';
 import { Button } from '../../ui/Button';
 import { Field } from '../../ui/Field';
-import { deleteAnimeFromList, updateAnimeStatus } from '../../lib/userApi';
+import { deleteAnimeFromList } from '../../lib/userApi';
 import { useState } from 'react';
 import QuickViewModal from '../../ui/QuickViewModal';
 

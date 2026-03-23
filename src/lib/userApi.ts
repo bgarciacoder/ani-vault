@@ -11,14 +11,9 @@ export async function addAnimeToList(input: { animeId: number; title: string; im
   return data;
 }
 
-export async function updateAnimeStatus(id: string, status: AnimeStatus) {
-  const { data } = await api.put<AnimeListItem>(`/user/anime-list/${id}`, { status });
-  return data;
-}
-
-export async function updateAnimeChapterPaused(id: string, chapterPaused: string) {
-  const { data } = await api.put<AnimeListItem>(`/user/anime-list/update-chapter/${id}`, { chapterPaused });
-  return data;
+export async function updateAnime(id: string, data: Partial<AnimeListItem>) {
+  const { data: response } = await api.put<AnimeListItem>(`/user/anime-list/${id}`, data );
+  return response;
 }
 
 export async function deleteAnimeFromList(id: string) {

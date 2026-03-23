@@ -98,6 +98,10 @@ export default function ProfilePage() {
         </div>
       </section>
 
+      <div className='text-2xl font-bold tracking-tight'>
+        Animes de tu lista
+      </div>
+
       <AiringCalendarModal open={calendarOpen} onClose={() => setCalendarOpen(false)} />
 
       {loading ? (

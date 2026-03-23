@@ -7,7 +7,7 @@ export type AnimeListItem = {
   title: string;
   image: string;
   status: AnimeStatus;
-  chapterUpdated: string;
+  chapterPaused: string;
   createdAt: string;
   updatedAt: string;
 };
