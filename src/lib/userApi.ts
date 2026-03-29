@@ -1,8 +1,11 @@
 import { api } from './api';
 import type { AnimeListItem, AnimeStatus } from '../types';
 
-export async function getAnimeList() {
-  const { data } = await api.get<AnimeListItem[]>('/user/anime-list');
+export async function getAnimeList(params: {
+  page?: number;
+  status?: string;
+}) {
+  const { data } = await api.get('/user/anime-list', { params });
   return data;
 }
 

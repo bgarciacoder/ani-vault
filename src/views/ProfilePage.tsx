@@ -7,20 +7,40 @@ import { UserAnimeCard } from '../features/profile/UserAnimeCard';
 import { Button } from '../ui/Button';
 import AiringCalendarModal from '../features/calendar/AiringCalendarModal';
 
+
+interface StatusCounts {
+  visto: number;
+  enPausa: number;
+  cancelado: number;
+  pendiente: number;
+}
+
 export default function ProfilePage() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<AnimeListItem[]>([]);
   const [q, setQ] = useState('');
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasNext, setHasNext] = useState(false);
+  const [statusCounts, setStatusCounts] = useState<StatusCounts>({
+    visto: 0,
+    enPausa: 0,
+    cancelado: 0,
+    pendiente: 0
+  });
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
     const timeoutId = setTimeout(() => {
-      getAnimeList()
+      getAnimeList({ page, status })
         .then((r) => {
-          if (!cancelled) setItems(r);
+          if (!cancelled) {
+            setItems(r.data);
+            setStatusCounts(r.statusCounts);
+          }
         })
         .catch(() => {
           if (!cancelled) toast.error("No se pudo cargar tu lista.");
@@ -28,17 +48,16 @@ export default function ProfilePage() {
         .finally(() => {
           if (!cancelled) setLoading(false);
         });
-    }, 500);
+    }, 100);
   
     return () => {
       cancelled = true;
       clearTimeout(timeoutId);
     };
-  }, []);
+  }, [page, status]);
 
   const stats = useMemo(() => {
-    const counts: Record<string, number> = { pendiente: 0, visto: 0, 'en pausa': 0, cancelado: 0 };
-    for (const it of items) counts[it.status] = (counts[it.status] ?? 0) + 1;
+    const counts: Record<string, number> = { pendiente: statusCounts.pendiente, visto: statusCounts.visto, 'en pausa': statusCounts.enPausa, cancelado: statusCounts.cancelado };
     return counts;
   }, [items]);
 
@@ -55,21 +74,21 @@ export default function ProfilePage() {
         <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{user?.email}</p>
 
         <div className="mt-4 flex flex-wrap gap-2 text-sm">
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+          <button onClick={ () => setStatus('pendiente') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             Pendiente: {stats['pendiente']}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+          </button>
+          <button onClick={ () => setStatus('visto') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             Visto: {stats['visto']}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+          </button>
+          <button onClick={ () => setStatus('en pausa') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             En pausa: {stats['en pausa']}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+          </button>
+          <button onClick={ () => setStatus('cancelado') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             Cancelado: {stats['cancelado']}
-          </span>
-          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+          </button>
+          <button onClick={ () => setStatus('') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             Total: {stats['pendiente'] + stats['visto'] + stats['en pausa'] + stats['cancelado']}
-          </span>
+          </button>
         </div>
 
         <div className="mt-5">
@@ -94,6 +113,20 @@ export default function ProfilePage() {
           </div>
           <Button variant="secondary" onClick={() => setCalendarOpen(true)}>
             Abrir calendario
+          </Button>
+        </div>
+      </section>
+
+      <section className="flex items-center justify-between">
+        <div className="text-sm text-slate-600 dark:text-slate-300">
+          Página <span className="font-semibold text-slate-900 dark:text-slate-50">{page}</span>
+        </div>
+        <div className="flex gap-2">
+          <Button variant="secondary" disabled={page === 1 || loading} onClick={() => setPage((p) => p - 1)}>
+            Anterior
+          </Button>
+          <Button variant="secondary" disabled={loading} onClick={() => setPage((p) => p + 1)}>
+            Siguiente
           </Button>
         </div>
       </section>
