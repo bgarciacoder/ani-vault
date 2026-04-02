@@ -34,25 +34,27 @@ export default function ProfilePage() {
   useEffect(() => {
     let cancelled = false;
     setLoading(true);
-    const timeoutId = setTimeout(() => {
-      getAnimeList({ page, status })
-        .then((r) => {
-          if (!cancelled) {
-            setItems(r.data);
-            setStatusCounts(r.statusCounts);
-          }
-        })
-        .catch(() => {
-          if (!cancelled) toast.error("No se pudo cargar tu lista.");
-        })
-        .finally(() => {
-          if (!cancelled) setLoading(false);
-        });
-    }, 100);
+    // const timeoutId = setTimeout(() => {
+      
+    // }, 100);
+
+    getAnimeList({ page, status })
+    .then((r) => {
+      if (!cancelled) {
+        setItems(r.data);
+        setStatusCounts(r.statusCounts);
+      }
+    })
+    .catch(() => {
+      if (!cancelled) toast.error("No se pudo cargar tu lista.");
+    })
+    .finally(() => {
+      if (!cancelled) setLoading(false);
+    });
   
     return () => {
       cancelled = true;
-      clearTimeout(timeoutId);
+      // clearTimeout(timeoutId);
     };
   }, [page, status]);
 
