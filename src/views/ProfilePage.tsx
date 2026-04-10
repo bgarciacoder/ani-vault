@@ -16,7 +16,7 @@ interface StatusCounts {
 }
 
 export default function ProfilePage() {
-  const { user } = useAuth();
+  const { user, isAuthReady } = useAuth();
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<AnimeListItem[]>([]);
   const [q, setQ] = useState('');
@@ -32,7 +32,7 @@ export default function ProfilePage() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    if (!user) return;
+    if (!isAuthReady || !user) return;
 
     const controller = new AbortController();
     let isMounted = true;
@@ -64,7 +64,7 @@ export default function ProfilePage() {
       isMounted = false;
       controller.abort();
     };
-  }, [page, status, user]);
+  }, [page, status, user, isAuthReady]);
 
   const stats = useMemo(() => {
     const counts: Record<string, number> = { pendiente: statusCounts.pendiente, visto: statusCounts.visto, 'en pausa': statusCounts.enPausa, cancelado: statusCounts.cancelado };
