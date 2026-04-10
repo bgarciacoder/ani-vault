@@ -32,6 +32,8 @@ export default function ProfilePage() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
+    if (!user) return;
+
     const controller = new AbortController();
     let isMounted = true;
 
@@ -62,7 +64,7 @@ export default function ProfilePage() {
       isMounted = false;
       controller.abort();
     };
-  }, [page, status]);
+  }, [page, status, user]);
 
   const stats = useMemo(() => {
     const counts: Record<string, number> = { pendiente: statusCounts.pendiente, visto: statusCounts.visto, 'en pausa': statusCounts.enPausa, cancelado: statusCounts.cancelado };
