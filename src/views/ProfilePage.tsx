@@ -32,27 +32,35 @@ export default function ProfilePage() {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-    const timeoutId = setTimeout(() => {
-      getAnimeList({ page, status })
-      .then((r) => {
-        if (!cancelled) {
-          setItems(r.data);
-          setStatusCounts(r.statusCounts);
+    const controller = new AbortController();
+    let isMounted = true;
+
+    const fetchAnimeList = async () => {
+      try {
+        setLoading(true);
+        const response = await getAnimeList({ page, status });
+        
+        if (isMounted && !controller.signal.aborted) {
+          setItems(response.data);
+          setStatusCounts(response.statusCounts);
         }
-      })
-      .catch(() => {
-        if (!cancelled) toast.error("No se pudo cargar tu lista.");
-      })
-      .finally(() => {
-        if (!cancelled) setLoading(false);
-      });
-    }, 100);
-  
+      } catch (error) {
+        if (isMounted && !controller.signal.aborted) {
+          const errorMessage = error instanceof Error ? error.message : "No se pudo cargar tu lista.";
+          toast.error(errorMessage);
+        }
+      } finally {
+        if (isMounted && !controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchAnimeList();
+
     return () => {
-      cancelled = true;
-      // clearTimeout(timeoutId);
+      isMounted = false;
+      controller.abort();
     };
   }, [page, status]);
 
