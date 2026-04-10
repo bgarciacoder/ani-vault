@@ -7,7 +7,12 @@ import ProfilePage from './views/ProfilePage';
 import { useAuth } from './state/auth/useAuth';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { token } = useAuth();
+  const { token, isAuthReady } = useAuth();
+  
+  if (!isAuthReady) {
+    return <div className="flex items-center justify-center h-96">Cargando...</div>;
+  }
+  
   if (!token) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
