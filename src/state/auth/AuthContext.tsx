@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { api, setAuthToken } from '../../lib/api';
 
@@ -21,12 +21,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem(STORAGE_KEY));
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const initialMountRef = useRef(true);
 
   useEffect(() => {
     setAuthToken(token);
     if (!token) {
       setUser(null);
       setIsAuthReady(true);
+      initialMountRef.current = false;
       return;
     }
     api
@@ -34,12 +36,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .then((r) => {
         setUser(r.data);
         setIsAuthReady(true);
+        if (!initialMountRef.current) {
+          toast.success('Bienvenido/a');
+        }
       })
       .catch(() => {
         localStorage.removeItem(STORAGE_KEY);
         setToken(null);
         setIsAuthReady(true);
         toast.error('Sesión caducada, inicia sesión de nuevo.');
+      })
+      .finally(() => {
+        initialMountRef.current = false;
       });
   }, [token]);
 
@@ -52,17 +60,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const { data } = await api.post('/auth/login', { email, password });
         localStorage.setItem(STORAGE_KEY, data.token);
         setToken(data.token);
-        setUser(data.user);
-        setIsAuthReady(true);
-        toast.success('Bienvenido/a');
       },
       async register(email, username, password) {
         const { data } = await api.post('/auth/register', { email, username, password });
         localStorage.setItem(STORAGE_KEY, data.token);
         setToken(data.token);
-        setUser(data.user);
-        setIsAuthReady(true);
-        toast.success('Cuenta creada');
       },
       logout() {
         localStorage.removeItem(STORAGE_KEY);
