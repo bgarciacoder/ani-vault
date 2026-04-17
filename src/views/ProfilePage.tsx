@@ -13,6 +13,7 @@ interface StatusCounts {
   enPausa: number;
   cancelado: number;
   pendiente: number;
+  siguiendo: number;
 }
 
 export default function ProfilePage() {
@@ -27,7 +28,8 @@ export default function ProfilePage() {
     visto: 0,
     enPausa: 0,
     cancelado: 0,
-    pendiente: 0
+    pendiente: 0,
+    siguiendo: 0
   });
   const [status, setStatus] = useState("");
 
@@ -67,9 +69,9 @@ export default function ProfilePage() {
   }, [page, status, user, isAuthReady]);
 
   const stats = useMemo(() => {
-    const counts: Record<string, number> = { pendiente: statusCounts.pendiente, visto: statusCounts.visto, 'en pausa': statusCounts.enPausa, cancelado: statusCounts.cancelado };
+    const counts: Record<string, number> = { pendiente: statusCounts.pendiente ?? 0, visto: statusCounts.visto ?? 0, 'en pausa': statusCounts.enPausa ?? 0, cancelado: statusCounts.cancelado ?? 0, siguiendo: statusCounts.siguiendo ?? 0 };
     return counts;
-  }, [items]);
+  }, [statusCounts]);
 
   const filteredItems = useMemo(() => {
     const needle = q.trim().toLowerCase();
@@ -90,6 +92,9 @@ export default function ProfilePage() {
           <button onClick={ () => setStatus('visto') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             Visto: {stats['visto']}
           </button>
+          <button onClick={ () => setStatus('siguiendo') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
+            Siguiendo: {stats['siguiendo']}
+          </button>
           <button onClick={ () => setStatus('en pausa') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
             En pausa: {stats['en pausa']}
           </button>
@@ -97,7 +102,7 @@ export default function ProfilePage() {
             Cancelado: {stats['cancelado']}
           </button>
           <button onClick={ () => setStatus('') } className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 dark:bg-slate-950 dark:text-slate-200">
-            Total: {stats['pendiente'] + stats['visto'] + stats['en pausa'] + stats['cancelado']}
+            Total: {stats['pendiente'] + stats['visto'] + stats['siguiendo'] + stats['en pausa'] + stats['cancelado']}
           </button>
         </div>
 

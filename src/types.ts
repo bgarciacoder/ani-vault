@@ -1,4 +1,4 @@
-export type AnimeStatus = 'pendiente' | 'visto' | 'en pausa' | 'cancelado';
+export type AnimeStatus = 'pendiente' | 'visto' | 'en pausa' | 'cancelado' | 'siguiendo';
 
 export type AnimeListItem = {
   _id: string;

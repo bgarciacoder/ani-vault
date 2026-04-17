@@ -4,6 +4,7 @@ import HomePage from './views/HomePage';
 import LoginPage from './views/LoginPage';
 import RegisterPage from './views/RegisterPage';
 import ProfilePage from './views/ProfilePage';
+import AnimePage from './views/AnimePage';
 import { useAuth } from './state/auth/useAuth';
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
@@ -24,6 +25,7 @@ export default function App() {
       <main className="container-app py-6">
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/anime/:animeId" element={<AnimePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route

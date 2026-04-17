@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import Image from './AppImage';
 import Icon from './AppIcons';
 import { Button } from './Button';
@@ -60,9 +61,9 @@ export default function QuickViewModal({
         }
     }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="fixed inset-0 bg-black/60" onClick={onClose} />
+        <div className="fixed inset-0 bg-black/60" onClick={onClose} />
         <div className="relative bg-card border border-border rounded-lg maritime-shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-slate-950absolute inset-x-0 bottom-0 mx-auto w-full max-w-3xl rounded-t-3xl border border-slate-800 bg-slate-950 p-4 shadow-2xl sm:inset-0 sm:my-auto sm:rounded-3xl sm:p-6">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border">
@@ -92,12 +93,15 @@ export default function QuickViewModal({
                         <h3 className="text-2xl font-bold text-foreground mb-2">{item?.title}</h3>
                     </div>
                     {/* Buttons */}
-                    <div className='grid grid-cols-2 gap-4 p-4 border-b border-border'>
+                    <div className='grid grid-cols-3 gap-2 p-4 border-b border-border'>
                         <Button variant={currentStatus === "pendiente" ? "pending" : "secondary"} onClick={() => setStatus('pendiente')}>
                             Pendiente
                         </Button>
                         <Button variant={currentStatus === "visto" ? "watched" : "secondary"} onClick={() => setStatus('visto')}>
                             Visto
+                        </Button>
+                        <Button variant={currentStatus === "siguiendo" ? "following" : "secondary"} onClick={() => setStatus('siguiendo')}>
+                            Siguiendo
                         </Button>
                         <Button variant={currentStatus === "en pausa" ? "onhold" : "secondary"} onClick={() => setStatus('en pausa')}>
                             En pausa
@@ -126,17 +130,17 @@ export default function QuickViewModal({
                         </div>
                     )}
                 </div>
-                {/* Price and Actions */}
-                <div className="pt-4 border-t border-border">
-                    <div className="space-y-2">
-                        <Button variant='secondary' onClick={onClose}>
-                            Cerrar
-                        </Button>
-                    </div>
-                </div>
             </div>
-          </div>
+            </div>
+            
+            {/* Actions */}
+            <div className="p-4 border-t border-border">
+                <Button variant='secondary' onClick={onClose} className="w-full">
+                    Cerrar
+                </Button>
+            </div>
         </div>
-      </div>
+    </div>,
+    document.body
   );
 };

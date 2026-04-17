@@ -1,4 +1,5 @@
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../ui/Button';
 import { useAuth } from '../../state/auth/useAuth';
 import { addAnimeToList } from '../../lib/userApi';
@@ -15,6 +16,7 @@ export function AnimeCard({
   onAdded?: () => void;
 }) {
   const { token } = useAuth();
+  const navigate = useNavigate();
 
   async function handleAdd() {
     if (!token) {
@@ -31,8 +33,15 @@ export function AnimeCard({
     }
   }
 
+  function handleCardClick() {
+    navigate(`/anime/${animeId}`);
+  }
+
   return (
-    <div className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900">
+    <div
+      onClick={handleCardClick}
+      className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900"
+    >
       <div className="aspect-[3/4] w-full overflow-hidden bg-slate-100 dark:bg-slate-950">
         <img
           src={image}
