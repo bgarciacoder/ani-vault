@@ -41,10 +41,10 @@ export default function QuickViewModal({
         try {
             setCurrentStatus(status);
             const updated = await updateAnime(item._id, { status });
-            toast.success('Estado actualizado');
+            toast.success('Status was updated successfully.');
             onChanged(updated);
         } catch (e: any) {
-            toast.error(e?.response?.data?.message ?? 'No se pudo actualizar.');
+            toast.error(e?.response?.data?.message ?? 'Failed to update status.');
         }
     }
 
@@ -54,10 +54,10 @@ export default function QuickViewModal({
             setCurrentStatus("en pausa")
             const updated = await updateAnime(item._id, { chapterPaused });
             setChapterPaused(updated.chapterPaused);
-            toast.success('Capítulo donde lo dejaste actualizado.')
+            toast.success('Chapter where you left off updated.');
             onChanged(updated);
         } catch (e: any) {
-            toast.error(e?.response?.data?.message ?? 'No se pudo actualizar.');
+            toast.error(e?.response?.data?.message ?? 'Failed to update chapter.');
         }
     }
 
@@ -67,7 +67,7 @@ export default function QuickViewModal({
         <div className="relative bg-card border border-border rounded-lg maritime-shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto bg-slate-950absolute inset-x-0 bottom-0 mx-auto w-full max-w-3xl rounded-t-3xl border border-slate-800 bg-slate-950 p-4 shadow-2xl sm:inset-0 sm:my-auto sm:rounded-3xl sm:p-6">
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-border">
-            <h2 className="text-xl font-semibold text-foreground">Editado rápido</h2>
+            <h2 className="text-xl font-semibold text-foreground">Quick Edit</h2>
             <Button variant="secondary" onClick={onClose}>
                 <Icon name="X" size={20} />
             </Button>
@@ -95,26 +95,26 @@ export default function QuickViewModal({
                     {/* Buttons */}
                     <div className='grid grid-cols-3 gap-2 p-4 border-b border-border'>
                         <Button variant={currentStatus === "pendiente" ? "pending" : "secondary"} onClick={() => setStatus('pendiente')}>
-                            Pendiente
+                            Pending
                         </Button>
                         <Button variant={currentStatus === "visto" ? "watched" : "secondary"} onClick={() => setStatus('visto')}>
-                            Visto
+                            Watched
                         </Button>
                         <Button variant={currentStatus === "siguiendo" ? "following" : "secondary"} onClick={() => setStatus('siguiendo')}>
-                            Siguiendo
+                            Following
                         </Button>
                         <Button variant={currentStatus === "en pausa" ? "onhold" : "secondary"} onClick={() => setStatus('en pausa')}>
-                            En pausa
+                            On Hold
                         </Button>
                         <Button variant={currentStatus === "cancelado" ? "cancelled" : "secondary"} onClick={() => setStatus('cancelado')}>
-                            Cancelado
+                            Droped
                         </Button>
                     </div>
                     
                     {currentStatus === "en pausa" && (
                         <div className="flex flex-col gap-4">
                             <div className="mb-1 text-sm font-medium text-slate-700 dark:text-slate-200">
-                                Introduce el capítulo del anime donde lo has pausado
+                                Enter the chapter of the anime where you left off
                             </div>
 
                             <input
@@ -125,7 +125,7 @@ export default function QuickViewModal({
                             />
 
                             <Button variant="secondary" onClick={() => setChatpter()}>
-                                Añadir capítulo
+                                Save Chapter
                             </Button>
                         </div>
                     )}
@@ -136,7 +136,7 @@ export default function QuickViewModal({
             {/* Actions */}
             <div className="p-4 border-t border-border">
                 <Button variant='secondary' onClick={onClose} className="w-full">
-                    Cerrar
+                    Close
                 </Button>
             </div>
         </div>

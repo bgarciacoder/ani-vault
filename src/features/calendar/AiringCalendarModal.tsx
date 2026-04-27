@@ -113,7 +113,7 @@ export default function AiringCalendarModal({
   
       } catch (e: any) {
         if (e?.response?.status === 429) {
-          toast.error('Jikan está limitando peticiones (429). Espera y reintenta.');
+          toast.error('Rate limit exceeded for Jikan API. Please try again later.');
         }
       } finally {
         if (!cancelled) {
@@ -156,13 +156,13 @@ export default function AiringCalendarModal({
       <div className="overflow-auto scrollbar-hide-desktop absolute inset-x-0 bottom-0 mx-auto w-full max-w-3xl rounded-t-3xl border border-slate-800 bg-slate-950 p-4 shadow-2xl sm:inset-0 sm:my-auto sm:rounded-3xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-lg font-bold">Calendario de emisión</h2>
+            <h2 className="text-lg font-bold">Airing Calendar</h2>
             <p className="mt-1 text-sm text-slate-300">
-              Marca días con animes en emisión. Solo informativo.
+              Mark days with airing anime. For informational purposes only.
             </p>
           </div>
           <Button variant="secondary" onClick={onClose}>
-            Cerrar
+            Close
           </Button>
         </div>
 
@@ -171,14 +171,14 @@ export default function AiringCalendarModal({
             variant="secondary"
             onClick={() => setMonth((d) => new Date(d.getFullYear(), d.getMonth() - 1, 1))}
           >
-            Mes anterior
+            Previous Month
           </Button>
           <div className="text-sm font-semibold capitalize text-slate-100">{monthLabel(month)}</div>
           <Button
             variant="secondary"
             onClick={() => setMonth((d) => new Date(d.getFullYear(), d.getMonth() + 1, 1))}
           >
-            Mes siguiente
+            Next Month
           </Button>
         </div>
 
@@ -229,9 +229,9 @@ export default function AiringCalendarModal({
           </div>
 
           {loading ? (
-            <div className="mt-2 text-sm text-slate-300">Cargando emisiones...</div>
+            <div className="mt-2 text-sm text-slate-300">Loading airing schedules...</div>
           ) : selectedList.length === 0 ? (
-            <div className="mt-2 text-sm text-slate-300">No hay animes en emisión para este día.</div>
+            <div className="mt-2 text-sm text-slate-300">No airing anime scheduled for this day.</div>
           ) : (
             <ul className="mt-2 space-y-2">
               {selectedList.map((s) => (
@@ -247,7 +247,7 @@ export default function AiringCalendarModal({
         </div>
 
         <div className="mt-3 text-xs text-slate-400">
-          Nota: Puede no tener horario para todos los animes.
+          Note: Some anime may not have a scheduled time.
         </div>
       </div>
     </div>

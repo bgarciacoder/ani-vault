@@ -36,7 +36,7 @@ export default function HomePage() {
           }))
         );
       })
-      .catch(() => toast.error('No se pudo cargar Jikan. Reintenta.'))
+      .catch(() => toast.error('Jikan could not be loaded. Please try again.'))
       .finally(() => !cancelled && setLoading(false));
     return () => {
       cancelled = true;
@@ -44,8 +44,8 @@ export default function HomePage() {
   }, [page, debouncedQ]);
 
   const subtitle = useMemo(() => {
-    if (debouncedQ.trim()) return `Resultados para “${debouncedQ.trim()}”`;
-    return 'Explora animes y guárdalos en tu lista personal.';
+    if (debouncedQ.trim()) return `Results for “${debouncedQ.trim()}”`;
+    return 'Explore anime and save them to your personal list.';
   }, [debouncedQ]);
 
   return (
@@ -57,11 +57,11 @@ export default function HomePage() {
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">{subtitle}</p>
           </div>
           <div className="w-full sm:max-w-md">
-            <div className="text-sm font-medium text-slate-700 dark:text-slate-200">Buscador</div>
+            <div className="text-sm font-medium text-slate-700 dark:text-slate-200">Search</div>
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder="Ej: Naruto, One Piece..."
+              placeholder="e.g., Naruto, One Piece..."
               className="mt-1 w-full rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-slate-900 shadow-sm outline-none ring-slate-900/10 focus:border-slate-900 focus:ring-4 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100 dark:ring-white/10 dark:focus:border-slate-100"
             />
           </div>
@@ -70,21 +70,21 @@ export default function HomePage() {
 
       <section className="flex items-center justify-between">
         <div className="text-sm text-slate-600 dark:text-slate-300">
-          Página <span className="font-semibold text-slate-900 dark:text-slate-50">{page}</span>
+          Page <span className="font-semibold text-slate-900 dark:text-slate-50">{page}</span>
         </div>
         <div className="flex gap-2">
           <Button variant="secondary" disabled={page === 1 || loading} onClick={() => setPage((p) => p - 1)}>
-            Anterior
+            Previous
           </Button>
           <Button variant="secondary" disabled={!hasNext || loading} onClick={() => setPage((p) => p + 1)}>
-            Siguiente
+            Next
           </Button>
         </div>
       </section>
 
       {loading ? (
         <div className="rounded-2xl border border-slate-200 bg-white p-10 text-center text-slate-600 shadow-soft dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300">
-          Cargando...
+          Loading...
         </div>
       ) : (
         <AnimeGrid items={items.filter((x) => x.image)} />

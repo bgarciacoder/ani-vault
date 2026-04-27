@@ -70,7 +70,7 @@ export default function AnimePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
-        <div className="text-slate-600 dark:text-slate-300">Cargando...</div>
+        <div className="text-slate-600 dark:text-slate-300">Loading...</div>
       </div>
     );
   }
@@ -78,7 +78,7 @@ export default function AnimePage() {
   if (!anime) {
     return (
       <div className="flex items-center justify-center min-h-[500px]">
-        <div className="text-slate-600 dark:text-slate-300">Anime no encontrado</div>
+        <div className="text-slate-600 dark:text-slate-300">Anime not found</div>
       </div>
     );
   }
@@ -95,7 +95,7 @@ export default function AnimePage() {
         onClick={() => navigate(-1)}
         className="text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100"
       >
-        ← Volver
+        ← Back
       </button>
 
       {/* Main content */}
@@ -116,7 +116,7 @@ export default function AnimePage() {
               disabled={adding}
               className="w-full"
             >
-              {adding ? 'Añadiendo...' : 'Añadir a mi lista'}
+              {adding ? 'Adding...' : 'Add to My List'}
             </Button>
 
             {/* Quick stats */}
@@ -125,10 +125,10 @@ export default function AnimePage() {
                 <div className="text-2xl font-bold text-slate-900 dark:text-slate-50">
                   {anime.score ? anime.score.toFixed(1) : 'N/A'}
                 </div>
-                <div className="text-xs text-slate-600 dark:text-slate-400">Calificación</div>
+                <div className="text-xs text-slate-600 dark:text-slate-400">Rating</div>
                 {anime.scored_by && (
                   <div className="mt-1 text-xs text-slate-500 dark:text-slate-500">
-                    ({anime.scored_by.toLocaleString()} votos)
+                    ({anime.scored_by.toLocaleString()} votes)
                   </div>
                 )}
               </div>
@@ -143,7 +143,7 @@ export default function AnimePage() {
               </div>
 
               <div>
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Popularidad</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Popularity</div>
                 <div className="text-lg font-bold text-slate-900 dark:text-slate-50">
                   {anime.popularity ? `#${anime.popularity}` : 'N/A'}
                 </div>
@@ -181,11 +181,11 @@ export default function AnimePage() {
               )}
               {anime.airing ? (
                 <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700 dark:bg-green-900/30 dark:text-green-300">
-                  En emisión
+                  On airing
                 </span>
               ) : (
                 <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-300">
-                  Terminado
+                  Finished
                 </span>
               )}
             </div>
@@ -195,7 +195,7 @@ export default function AnimePage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {anime.episodes !== null && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Episodios</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Episodes</div>
                 <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-50">
                   {anime.episodes}
                 </div>
@@ -204,7 +204,7 @@ export default function AnimePage() {
 
             {anime.duration && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Duración</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Duration</div>
                 <div className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-50">
                   {anime.duration}
                 </div>
@@ -213,7 +213,7 @@ export default function AnimePage() {
 
             {anime.aired?.string && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Emisión</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Airing</div>
                 <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
                   {anime.aired.string}
                 </div>
@@ -222,7 +222,7 @@ export default function AnimePage() {
 
             {anime.source && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Fuente</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Source</div>
                 <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
                   {anime.source}
                 </div>
@@ -231,7 +231,7 @@ export default function AnimePage() {
 
             {anime.rating && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Clasificación</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Rating</div>
                 <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
                   {anime.rating}
                 </div>
@@ -240,7 +240,7 @@ export default function AnimePage() {
 
             {anime.broadcast?.string && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Transmisión</div>
+                <div className="text-xs font-medium text-slate-600 dark:text-slate-400">Broadcast</div>
                 <div className="mt-1 text-sm font-semibold text-slate-900 dark:text-slate-50">
                   {anime.broadcast.string}
                 </div>
@@ -252,7 +252,7 @@ export default function AnimePage() {
           <div className="space-y-3">
             {anime.genres && anime.genres.length > 0 && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Géneros</div>
+                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Genres</div>
                 <div className="flex flex-wrap gap-2">
                   {anime.genres.map((genre) => (
                     <span
@@ -268,7 +268,7 @@ export default function AnimePage() {
 
             {anime.studios && anime.studios.length > 0 && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Estudios</div>
+                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Studios</div>
                 <div className="flex flex-wrap gap-2">
                   {anime.studios.map((studio) => (
                     <span
@@ -284,7 +284,7 @@ export default function AnimePage() {
 
             {anime.themes && anime.themes.length > 0 && (
               <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Temas</div>
+                <div className="mb-2 text-xs font-medium text-slate-600 dark:text-slate-400">Themes</div>
                 <div className="flex flex-wrap gap-2">
                   {anime.themes.slice(0, 5).map((theme) => (
                     <span
@@ -302,7 +302,7 @@ export default function AnimePage() {
           {/* Sinopsis */}
           {anime.synopsis && (
             <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-              <h2 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Sinopsis</h2>
+              <h2 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Synopsis</h2>
               <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">
                 {anime.synopsis}
               </p>
@@ -312,7 +312,7 @@ export default function AnimePage() {
           {/* Background */}
           {anime.background && (
             <div className="rounded-lg border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-              <h2 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Información Adicional</h2>
+              <h2 className="mb-3 text-sm font-semibold text-slate-900 dark:text-slate-50">Additional Information</h2>
               <p className="whitespace-pre-wrap text-sm text-slate-700 dark:text-slate-300">
                 {anime.background}
               </p>

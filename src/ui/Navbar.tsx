@@ -32,12 +32,12 @@ export default function Navbar() {
           <NavItem to="/">Home</NavItem>
           {token ? (
             <>
-              <NavItem to="/profile">Perfil</NavItem>
+              <NavItem to="/profile">Profile</NavItem>
               <button
                 onClick={logout}
                 className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
               >
-                Salir
+                Logout
               </button>
               <span className="hidden text-sm text-slate-500 dark:text-slate-400 sm:inline">
                 {user?.username}
@@ -46,7 +46,7 @@ export default function Navbar() {
           ) : (
             <>
               <NavItem to="/login">Login</NavItem>
-              <NavItem to="/register">Registro</NavItem>
+              <NavItem to="/register">Register</NavItem>
             </>
           )}
         </nav>

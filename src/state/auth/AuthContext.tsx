@@ -37,14 +37,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(r.data);
         setIsAuthReady(true);
         if (!initialMountRef.current) {
-          toast.success('Bienvenido/a');
+          toast.success('Welcome back, ' + r.data.username + '!');
         }
       })
       .catch(() => {
         localStorage.removeItem(STORAGE_KEY);
         setToken(null);
         setIsAuthReady(true);
-        toast.error('Sesión caducada, inicia sesión de nuevo.');
+        toast.error('Session expired, please log in again.');
       })
       .finally(() => {
         initialMountRef.current = false;
@@ -72,7 +72,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
         setIsAuthReady(false);
         setAuthToken(null);
-        toast('Sesión cerrada');
+        toast('Session closed');
       },
     }),
     [token, user, isAuthReady]

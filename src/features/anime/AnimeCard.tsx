@@ -20,15 +20,15 @@ export function AnimeCard({
 
   async function handleAdd() {
     if (!token) {
-      toast.error('Inicia sesión para añadir a tu lista.');
+      toast.error('Start session to add to your list');
       return;
     }
     try {
       await addAnimeToList({ animeId, title, image });
-      toast.success('Añadido a tu lista');
+      toast.success('Added to your list');
       onAdded?.();
     } catch (e: any) {
-      const msg = e?.response?.data?.message ?? 'No se pudo añadir.';
+      const msg = e?.response?.data?.message ?? 'Could not add to list';
       toast.error(msg);
     }
   }
@@ -39,13 +39,13 @@ export function AnimeCard({
 
   return (
     <div
-      onClick={handleCardClick}
-      className="group cursor-pointer overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900"
+      className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-soft transition hover:-translate-y-0.5 dark:border-slate-800 dark:bg-slate-900"
     >
-      <div className="aspect-[3/4] w-full overflow-hidden bg-slate-100 dark:bg-slate-950">
+      <div className="aspect-[3/4] w-full overflow-hidden bg-slate-100 dark:bg-slate-950 cursor-pointer">
         <img
           src={image}
           alt={title}
+          onClick={handleCardClick}
           loading="lazy"
           className="h-full w-full object-cover transition group-hover:scale-[1.02]"
         />
@@ -54,7 +54,7 @@ export function AnimeCard({
         <div className="line-clamp-2 min-h-10 text-sm font-semibold">{title}</div>
         <div className="mt-3">
           <Button onClick={handleAdd} variant="secondary">
-            Añadir a mi lista
+            Add to List
           </Button>
         </div>
       </div>

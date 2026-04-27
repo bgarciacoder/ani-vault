@@ -78,13 +78,13 @@ export function UserAnimeCard({
             variant="secondary"
             onClick={handleEditWithoutNavigate}
           >
-            Editar estado
+            Edit status / episodes
           </Button>
           <Button
             variant="danger"
             onClick={handleRemoveWithoutNavigate}
           >
-            Eliminar
+            Delete
           </Button>
         </div>
       </div>

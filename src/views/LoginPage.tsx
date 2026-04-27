@@ -30,7 +30,7 @@ export default function LoginPage() {
     <div className="mx-auto max-w-md">
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft dark:border-slate-800 dark:bg-slate-900">
         <h1 className="text-xl font-bold">Login</h1>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Accede para gestionar tu lista.</p>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Enter your credentials to access your account.</p>
 
         <form onSubmit={onSubmit} className="mt-5 space-y-4">
           <Field label="Email" value={email} onChange={setEmail} autoComplete="email" />
@@ -43,14 +43,14 @@ export default function LoginPage() {
           />
 
           <Button type="submit" disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? 'Logging in...' : 'Login'}
           </Button>
         </form>
 
         <div className="mt-4 text-sm text-slate-600 dark:text-slate-300">
-          ¿No tienes cuenta?{' '}
+          Don't have an account?{' '}
           <Link to="/register" className="font-semibold text-slate-900 underline dark:text-slate-50">
-            Regístrate
+            Register
           </Link>
         </div>
       </div>

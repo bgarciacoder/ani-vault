@@ -30,26 +30,26 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-md">
       <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-soft dark:border-slate-800 dark:bg-slate-900">
-        <h1 className="text-xl font-bold">Registro</h1>
-        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Crea tu cuenta para guardar animes.</p>
+        <h1 className="text-xl font-bold">Register</h1>
+        <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Create your account to save animes.</p>
 
         <form onSubmit={onSubmit} className="mt-5 space-y-4">
           <Field label="Email" value={email} onChange={setEmail} autoComplete="email" />
-          <Field label="Nombre de usuario" value={username} onChange={setUsername} autoComplete="username" />
+          <Field label="Username" value={username} onChange={setUsername} autoComplete="username" />
           <Field
-            label="Password (mín. 6)"
+            label="Password (minimum 6 characters)"
             type="password"
             value={password}
             onChange={setPassword}
             autoComplete="new-password"
           />
           <Button type="submit" disabled={loading}>
-            {loading ? 'Creando...' : 'Crear cuenta'}
+            {loading ? 'Creating...' : 'Create Account'}
           </Button>
         </form>
 
         <div className="mt-4 text-sm text-slate-600 dark:text-slate-300">
-          ¿Ya tienes cuenta?{' '}
+          Already have an account?{' '}
           <Link to="/login" className="font-semibold text-slate-900 underline dark:text-slate-50">
             Login
           </Link>

@@ -11,7 +11,7 @@ function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { token, isAuthReady } = useAuth();
   
   if (!isAuthReady) {
-    return <div className="flex items-center justify-center h-96">Cargando...</div>;
+    return <div className="flex items-center justify-center h-96">Loading...</div>;
   }
   
   if (!token) return <Navigate to="/login" replace />;
